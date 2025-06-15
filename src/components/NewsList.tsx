@@ -9,24 +9,24 @@ interface NewsListProps {
 
 const NewsList = ({ articles }: NewsListProps) => {
   return (
-    <Card className="w-full">
+    <Card className="w-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1.5">
       <CardHeader>
-        <CardTitle className="flex items-center justify-between">
-          <span>Latest News</span>
-          <Newspaper className="h-6 w-6 text-muted-foreground" />
+        <CardTitle className="flex items-center gap-3">
+          <Newspaper className="h-7 w-7 text-primary" />
+          <span className="text-2xl">Latest News</span>
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <ul className="space-y-4">
+        <ul className="space-y-2">
           {articles.map((article, index) => (
-            <li key={index} className="border-b pb-4 last:border-b-0 last:pb-0">
+            <li key={index}>
               <a
                 href={article.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group block"
+                className="group block p-4 rounded-lg transition-colors hover:bg-muted/50"
               >
-                <h4 className="font-semibold group-hover:text-primary transition-colors leading-snug">
+                <h4 className="font-semibold text-lg group-hover:text-primary transition-colors leading-snug">
                   {article.title}
                 </h4>
                 <p className="text-sm text-muted-foreground mt-2">{article.source}</p>

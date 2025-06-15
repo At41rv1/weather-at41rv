@@ -25,7 +25,7 @@ const fetchWeatherAndNews = async (location: string): Promise<ApiData> => {
       Authorization: `Bearer ${API_KEY}`,
     },
     body: JSON.stringify({
-      model: "MCPCore/openai/gpt-4o-search-preview",
+      model: "TogetherAI/NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO",
       messages: [{ role: "user", content: prompt }],
       stream: false,
     }),
@@ -131,9 +131,9 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col items-center p-4 sm:p-6 lg:p-8">
       <div className="w-full max-w-5xl mx-auto">
-        <header className="text-center my-8">
-          <h1 className="text-4xl font-bold tracking-tight">Weather & News Hub</h1>
-          <p className="text-muted-foreground mt-2">Your AI-powered daily briefing</p>
+        <header className="text-center my-8 md:my-12">
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60 pb-2">Weather & News Hub</h1>
+          <p className="text-muted-foreground mt-2 text-lg">Your AI-powered daily briefing</p>
         </header>
 
         <main className="flex flex-col items-center gap-8">
@@ -156,6 +156,15 @@ const Index = () => {
             {renderContent()}
           </div>
         </main>
+
+        <footer className="text-center mt-16 py-6 border-t">
+          <p className="text-sm text-muted-foreground">
+            © {new Date().getFullYear()} Weather & News Hub. All rights reserved.
+          </p>
+          <p className="text-xs text-muted-foreground/80 mt-2">
+            Powered by AI. Data may not always be accurate.
+          </p>
+        </footer>
       </div>
     </div>
   );
