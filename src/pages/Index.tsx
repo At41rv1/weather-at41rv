@@ -25,7 +25,7 @@ const fetchWeatherAndNews = async (location: string): Promise<ApiData> => {
       Authorization: `Bearer ${API_KEY}`,
     },
     body: JSON.stringify({
-      model: "XenAI/gpt-4o-search-preview",
+      model: "MCPCore/openai/gpt-4o-search-preview",
       messages: [{ role: "user", content: prompt }],
       stream: false,
     }),
