@@ -1,7 +1,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { WeatherData } from "@/types";
-import { CloudSun, MapPin } from "lucide-react";
+import { CloudSun, MapPin, Droplets, Wind } from "lucide-react";
 
 interface WeatherCardProps {
   data: WeatherData;
@@ -23,9 +23,25 @@ const WeatherCard = ({ data }: WeatherCardProps) => {
         </div>
         <div className="text-5xl font-bold tracking-tighter">{data.temperature}</div>
         <p className="text-muted-foreground text-lg">{data.condition}</p>
-        <div className="flex justify-between text-muted-foreground">
-          {data.humidity && <span>Humidity: {data.humidity}</span>}
-          {data.wind && <span>Wind: {data.wind}</span>}
+        <div className="flex justify-between text-muted-foreground pt-4 border-t">
+          {data.humidity && (
+            <div className="flex items-center gap-2 text-sm">
+              <Droplets className="h-5 w-5 text-primary/70" />
+              <div className="flex flex-col items-start">
+                <span>Humidity</span>
+                <span className="font-semibold text-foreground">{data.humidity}</span>
+              </div>
+            </div>
+          )}
+          {data.wind && (
+            <div className="flex items-center gap-2 text-sm">
+              <Wind className="h-5 w-5 text-primary/70" />
+              <div className="flex flex-col items-start">
+                <span>Wind</span>
+                <span className="font-semibold text-foreground">{data.wind}</span>
+              </div>
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>

@@ -24,12 +24,12 @@ const NewsList = ({ articles }: NewsListProps) => {
                 href={article.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group"
+                className="group block"
               >
-                <h4 className="font-semibold group-hover:text-primary transition-colors">
+                <h4 className="font-semibold group-hover:text-primary transition-colors leading-snug">
                   {article.title}
                 </h4>
-                <p className="text-sm text-muted-foreground">{article.source}</p>
+                <p className="text-sm text-muted-foreground mt-2">{article.source}</p>
               </a>
             </li>
           ))}

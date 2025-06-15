@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Search } from "lucide-react";
+import { Search, Frown } from "lucide-react";
 import { ApiData } from "@/types";
 import WeatherCard from "@/components/WeatherCard";
 import NewsList from "@/components/NewsList";
@@ -32,16 +32,29 @@ const fetchWeatherAndNews = async (location: string): Promise<ApiData> => {
   });
 
   if (!response.ok) {
-    throw new Error("Failed to fetch data from the AI service.");
+    try {
+      const errorData = await response.json();
+      const errorMessage = errorData?.error?.message || "Failed to fetch data from the AI service.";
+      throw new Error(errorMessage);
+    } catch (e) {
+      throw new Error("An unexpected error occurred with the AI service. The response was not in the expected format.");
+    }
   }
 
   const data = await response.json();
   
   try {
     const content = data.choices[0].message.content;
-    return JSON.parse(content);
+    const parsedContent = JSON.parse(content);
+    if (!parsedContent.weather || !parsedContent.news) {
+      throw new Error("The AI returned data in an unexpected structure.");
+    }
+    return parsedContent;
   } catch (e) {
     console.error("Failed to parse AI response:", e);
+    if (e instanceof Error) {
+        throw new Error(`The AI returned an unexpected data format: ${e.message}`);
+    }
     throw new Error("The AI returned an unexpected data format.");
   }
 };
@@ -55,7 +68,9 @@ const Index = () => {
       toast.success("Information loaded successfully!");
     },
     onError: (error) => {
-      toast.error(error.message);
+      toast.error(error.message, {
+        duration: 8000,
+      });
     },
   });
 
@@ -80,9 +95,18 @@ const Index = () => {
 
     if (mutation.isError) {
       return (
-        <div className="text-center text-destructive">
-          <p>Sorry, something went wrong.</p>
-          <p>{mutation.error.message}</p>
+        <div className="text-center text-destructive bg-destructive/10 p-6 rounded-lg w-full max-w-2xl mx-auto flex flex-col items-center gap-4">
+          <Frown className="h-12 w-12" />
+          <div className="space-y-2">
+            <h3 className="text-lg font-semibold">Oops! Something went wrong.</h3>
+            <p className="text-sm">We couldn't retrieve the information for your location.</p>
+            <p className="text-xs bg-destructive/20 p-3 rounded-md font-mono text-destructive/90 mt-4 break-all">
+              <strong>Details:</strong> {mutation.error.message}
+            </p>
+            <p className="text-xs text-muted-foreground mt-2">
+              This might be an issue with the API service or the provided credentials. Please try again later or verify your API configuration.
+            </p>
+          </div>
         </div>
       );
     }
