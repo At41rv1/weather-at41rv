@@ -1,12 +1,17 @@
 
-export interface WeatherData {
-  location: string;
-  temperature: string;
-  condition: string;
-  humidity?: string;
-  wind?: string;
+export interface SearchResult {
+  title: string;
+  url: string;
+  snippet: string;
+  displayUrl?: string;
+}
+
+export interface SearchData {
+  results: SearchResult[];
+  query: string;
+  totalResults?: number;
 }
 
 export interface ApiData {
-  weather: WeatherData;
+  search: SearchData;
 }
